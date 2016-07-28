@@ -11,7 +11,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#ifdef __cplusplus
 #include <iostream>
+#endif
 #include "reader.h"
 
 #include "xmllex.c++"
