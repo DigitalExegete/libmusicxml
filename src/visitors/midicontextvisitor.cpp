@@ -124,7 +124,7 @@ void midicontextvisitor::playPedalChange (midiwriter::pedalType type, const std:
 void midicontextvisitor::playTempoChange (long bpm)
 {
 	if (fMidiWriter && bpm)
-		fMidiWriter->tempoChange (fCurrentDate, bpm);
+		fMidiWriter->tempoChange (fCurrentDate, (int)bpm);
 }
 
 //________________________________________________________________________
@@ -154,7 +154,7 @@ void midicontextvisitor::playNote (const notevisitor& note)
 	long dur = convert2Tick(note.getDuration());
 
 	if (fMidiWriter && (t != notevisitor::kRest)) {
-		int chan = fCurrentChan;
+		int chan = (int)fCurrentChan;
 		float pitch = note.getMidiPitch() + fTranspose;
 		if (pitch >= 0) pitch += fTranspose;
 
@@ -171,8 +171,8 @@ void midicontextvisitor::playNote (const notevisitor& note)
 		}
 		if (pitch < 0) pitch = 60;
 
-		int vel = note.getDynamics();
-		if (vel == notevisitor::kUndefinedDynamics) vel = fCurrentDynamics;
+		int vel = (int)note.getDynamics();
+		if (vel == notevisitor::kUndefinedDynamics) vel = (int)fCurrentDynamics;
 
 		int tie = note.getTie();
 		long date = note.inChord() ? fLastPosition : fCurrentDate;
@@ -180,10 +180,10 @@ void midicontextvisitor::playNote (const notevisitor& note)
 			dur = fTPQ / 6;			// have no duration - set to an arbitrary value
 			date -= dur;			// and play in advance
 			if (date < 0) date = 0; // check for negative dates
-			fMidiWriter->newNote(date, chan, note.getMidiPitch(), vel, dur);
+			fMidiWriter->newNote(date, chan, note.getMidiPitch(), vel, (int)dur);
 		}
 		else if (tie == StartStop::undefined) {
-			fMidiWriter->newNote(date, chan, note.getMidiPitch(), vel, dur);
+			fMidiWriter->newNote(date, chan, note.getMidiPitch(), vel, (int)dur);
 		}
 		else if (tie & StartStop::start) {
 			fPendingDuration += dur;
@@ -191,7 +191,7 @@ void midicontextvisitor::playNote (const notevisitor& note)
 		}
 		else if (tie == StartStop::stop) {
 			dur += fPendingDuration;
-			fMidiWriter->newNote(date, chan, note.getMidiPitch(), vel, dur);
+			fMidiWriter->newNote(date, chan, note.getMidiPitch(), vel, (int)dur);
 			fPendingDuration = 0;
 		}
 	}
@@ -259,7 +259,7 @@ void midicontextvisitor::visitStart ( S_part& elt )
     fDivisions = 1;
 
 	fCurrentPartID = elt->getAttributeValue("id");
-	int instrCount = fScoreInstruments.count(fCurrentPartID);
+	int instrCount = (int)fScoreInstruments.count(fCurrentPartID);
 	if (fMidiWriter) {
 		fMidiWriter->startPart(instrCount);
 		multimap<string, scoreInstrument>::iterator start = fScoreInstruments.lower_bound(fCurrentPartID);

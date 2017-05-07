@@ -59,10 +59,10 @@ void xml2guidovisitor::flushHeader ( scoreHeader& header )
 	if (header.fTitle) {
 		Sguidoelement tag = guidotag::create("title");
 		string title = header.fTitle->getValue();
-		int pos = title.find ('"');
+		int pos = (int)title.find ('"');
 		while (pos != string::npos) {
 			title = title.replace (pos, 1, "'");
-			pos = title.find ('"', pos);
+			pos = (int)title.find ('"', pos);
 		}
 		tag->add (guidoparam::create(title));
 		add (tag);
@@ -92,7 +92,7 @@ void xml2guidovisitor::flushPartHeader ( partHeader& header )
 		Sguidoelement tag = guidotag::create("instr");
 		stringstream s1, s2;
 		string instr = header.fPartName->getValue();
-		int offset = instr.size() * 2;
+		int offset = (int)instr.size() * 2;
 
 		s1 << "dx=-" << offset << "hs";
 		tag->add (guidoparam::create(instr));

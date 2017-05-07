@@ -875,7 +875,7 @@ void xmlpart2guido::visitEnd ( S_note& elt )
 
 	bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
 	if (!isGrace()) {
-		moveMeasureTime (getDuration(), scanVoice);
+		moveMeasureTime ((int)getDuration(), scanVoice);
 		checkDelayed (getDuration());		// check for delayed elements (directions with offset)
 	}
 	if (!scanVoice) return;

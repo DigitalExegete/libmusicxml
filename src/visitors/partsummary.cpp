@@ -96,7 +96,7 @@ int partsummary::countVoices (int staff) const
 	int count = 0;
 	map<int, map<int, int> >::const_iterator i = fStaffVoices.find( staff );
 	if (i != fStaffVoices.end()) {
-		count = i->second.size();
+		count = (int)i->second.size();
 	}
 	return count;
 }
