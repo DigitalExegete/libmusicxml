@@ -78,13 +78,13 @@ void xmlpart2guido::addDelayed (Sguidoelement elt, long offset)
 	add(elt);
 	return;
 	
-	if (offset > 0) {
-		delayedElement de;
-		de.delay = offset;
-		de.element = elt;
-		fDelayed.push_back(de);
-	}
-	else add (elt);
+//	if (offset > 0) {
+//		delayedElement de;
+//		de.delay = offset;
+//		de.element = elt;
+//		fDelayed.push_back(de);
+//	}
+//	else add (elt);
 }
 
 //________________________________________________________________________
